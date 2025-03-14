@@ -3479,6 +3479,64 @@ error:
     return NULL;
 }
 
+static PyObject*
+make_abi_features(void)
+{
+    int res;
+    PyObject *features = PyList_New(0);
+    if (features == NULL) {
+        goto error;
+    }
+
+#if defined(Py_GIL_DISABLED)
+    PyObject *free_threading = PyUnicode_FromString("free-threading");
+    if (free_threading == NULL) {
+        goto error;
+    }
+    res = PyList_Append(features, free_threading);
+    Py_DECREF(free_threading);
+    if (res < 0) {
+        goto error;
+    }
+#endif
+
+#if defined(Py_DEBUG) || (defined(MS_WINDOWS) && defined(_DEBUG))
+    PyObject *debug = PyUnicode_FromString("debug");
+    if (debug == NULL) {
+        goto error;
+    }
+    res = PyList_Append(features, debug);
+    Py_DECREF(debug);
+    if (res < 0) {
+        goto error;
+    }
+#endif
+
+    bool is64bit = PY_SSIZE_T_MAX > (1L << 32);
+    PyObject *bitness;
+    if (is64bit) {
+        bitness = PyUnicode_FromString("64-bit");
+    } else {
+        bitness = PyUnicode_FromString("32-bit");
+    }
+    if (bitness == NULL) {
+        goto error;
+    }
+    res = PyList_Append(features, bitness);
+    Py_DECREF(bitness);
+    if (res < 0) {
+        goto error;
+    }
+
+    PyObject *frozen = PyFrozenSet_New(features);
+    Py_DECREF(features);
+    return frozen;
+
+error:
+    Py_XDECREF(features);
+    return NULL;
+}
+
 #ifdef __EMSCRIPTEN__
 
 PyDoc_STRVAR(emscripten_info__doc__,
@@ -3665,6 +3723,7 @@ _PySys_InitCore(PyThreadState *tstate, PyObject *sysdict)
 #ifdef ABIFLAGS
     SET_SYS_FROM_STRING("abiflags", ABIFLAGS);
 #endif
+    SET_SYS("abi_features", make_abi_features());
 
 #define ENSURE_INFO_TYPE(TYPE, DESC) \
     do { \
