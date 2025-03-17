@@ -3489,16 +3489,18 @@ make_abi_features(void)
     }
 
 #if defined(Py_GIL_DISABLED)
-    PyObject *free_threading = PyUnicode_FromString("free-threading");
-    if (free_threading == NULL) {
+    PyObject *threading_feature = PyUnicode_FromString("free-threading");
+#else
+    PyObject *threading_feature = PyUnicode_FromString("gil-enabled");
+#endif
+    if (threading_feature == NULL) {
         goto error;
     }
-    res = PyList_Append(features, free_threading);
-    Py_DECREF(free_threading);
+    res = PyList_Append(features, threading_feature);
+    Py_DECREF(threading_feature);
     if (res < 0) {
         goto error;
     }
-#endif
 
 #if defined(Py_DEBUG) || (defined(MS_WINDOWS) && defined(_DEBUG))
     PyObject *debug = PyUnicode_FromString("debug");
