@@ -3514,7 +3514,6 @@ make_abi_features(void)
     }
 #endif
 
-    bool is64bit = PY_SSIZE_T_MAX > (1L << 32);
     PyObject *bitness;
     switch (PY_SSIZE_T_MAX) {
     case 0x7FFFFFFFL:
