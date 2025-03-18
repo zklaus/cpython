@@ -3483,7 +3483,7 @@ static PyObject*
 make_abi_features(void)
 {
     int res;
-    PyObject *features = PyList_New(0);
+    PyObject *features = PyFrozenSet_New(NULL);
     if (features == NULL) {
         goto error;
     }
@@ -3496,7 +3496,7 @@ make_abi_features(void)
     if (threading_feature == NULL) {
         goto error;
     }
-    res = PyList_Append(features, threading_feature);
+    res = PySet_Add(features, threading_feature);
     Py_DECREF(threading_feature);
     if (res < 0) {
         goto error;
@@ -3507,7 +3507,7 @@ make_abi_features(void)
     if (debug == NULL) {
         goto error;
     }
-    res = PyList_Append(features, debug);
+    res = PySet_Add(features, debug);
     Py_DECREF(debug);
     if (res < 0) {
         goto error;
@@ -3524,15 +3524,13 @@ make_abi_features(void)
     if (bitness == NULL) {
         goto error;
     }
-    res = PyList_Append(features, bitness);
+    res = PySet_Add(features, bitness);
     Py_DECREF(bitness);
     if (res < 0) {
         goto error;
     }
 
-    PyObject *frozen = PyFrozenSet_New(features);
-    Py_DECREF(features);
-    return frozen;
+    return features;
 
 error:
     Py_XDECREF(features);
