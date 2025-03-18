@@ -3516,15 +3516,23 @@ make_abi_features(void)
 
     bool is64bit = PY_SSIZE_T_MAX > (1L << 32);
     PyObject *bitness;
-    if (is64bit) {
-        bitness = PyUnicode_FromString("64-bit");
-    } else {
+    switch (PY_SSIZE_T_MAX) {
+    case 0x7FFFFFFFL:
         bitness = PyUnicode_FromString("32-bit");
+        break;
+    case 0x7FFFFFFFFFFFFFFFL:
+        bitness = PyUnicode_FromString("64-bit");
+        break;
+    default:
+        bitness = Py_NewRef(Py_None);
+        break;
     }
     if (bitness == NULL) {
         goto error;
     }
-    res = PySet_Add(features, bitness);
+    if (bitness != Py_None) {
+        res = PySet_Add(features, bitness);
+    }
     Py_DECREF(bitness);
     if (res < 0) {
         goto error;
