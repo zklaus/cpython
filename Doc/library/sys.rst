@@ -30,8 +30,6 @@ always available. Unless explicitly noted otherwise, all variables are read-only
 
    .. versionadded:: 3.14
 
-   .. availability:: Unix, Windows
-
 
 .. data:: abiflags
 
