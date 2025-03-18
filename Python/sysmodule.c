@@ -3488,7 +3488,7 @@ make_abi_features(void)
         goto error;
     }
 
-#if defined(Py_GIL_DISABLED)
+#ifdef Py_GIL_DISABLED
     PyObject *threading_feature = PyUnicode_FromString("free-threading");
 #else
     PyObject *threading_feature = PyUnicode_FromString("gil-enabled");
@@ -3502,7 +3502,7 @@ make_abi_features(void)
         goto error;
     }
 
-#if defined(Py_DEBUG)
+#ifdef Py_DEBUG
     PyObject *debug = PyUnicode_FromString("debug");
     if (debug == NULL) {
         goto error;
