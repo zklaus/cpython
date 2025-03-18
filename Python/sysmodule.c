@@ -3502,7 +3502,7 @@ make_abi_features(void)
         goto error;
     }
 
-#if defined(Py_DEBUG) || (defined(MS_WINDOWS) && defined(_DEBUG))
+#if defined(Py_DEBUG)
     PyObject *debug = PyUnicode_FromString("debug");
     if (debug == NULL) {
         goto error;
