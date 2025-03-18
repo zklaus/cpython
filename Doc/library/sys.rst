@@ -16,12 +16,12 @@ always available. Unless explicitly noted otherwise, all variables are read-only
    A frozen set of ABI features.
    Currently supported features are:
 
-   ``free-threading``
-      The Python interpreter is free-threading. On Unix systems, this corresponds
+   ``free-threading`` or ``gil_enabled``
+      The Python interpreter is free-threaded. On POSIX systems, this corresponds
       to ``"t" in sys.abiflags``.
 
    ``debug``
-      The Python interpreter has debugging capabilities. On Unix systems, this
+      The Python interpreter has debugging capabilities. On POSIX systems, this
       corresponds to ``"d" in sys.abiflags``.
 
    ``32-bit`` or ``64-bit``
