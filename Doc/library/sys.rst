@@ -13,7 +13,7 @@ always available. Unless explicitly noted otherwise, all variables are read-only
 
 .. data:: abi_features
 
-   A frozen set of ABI features.
+   A frozen set of strings that represent ABI features.
    Currently supported features are:
 
    ``free-threading`` or ``gil-enabled``
