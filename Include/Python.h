@@ -138,5 +138,6 @@
 #include "fileutils.h"
 #include "cpython/pyfpe.h"
 #include "cpython/tracemalloc.h"
+#include "pyabiinfo.h"
 
 #endif /* !Py_PYTHON_H */
