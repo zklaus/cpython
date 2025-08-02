@@ -3855,6 +3855,8 @@ _PySys_InitCore(PyThreadState *tstate, PyObject *sysdict)
 
     SET_SYS("thread_info", PyThread_GetInfo());
 
+    SET_SYS("abi_info", PyAbiInfo_GetInfo());
+
     /* initialize asyncgen_hooks */
     if (_PyStructSequence_InitBuiltin(interp, &AsyncGenHooksType,
                                       &asyncgen_hooks_desc) < 0)
