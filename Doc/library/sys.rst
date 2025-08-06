@@ -11,6 +11,26 @@ interpreter and to functions that interact strongly with the interpreter. It is
 always available. Unless explicitly noted otherwise, all variables are read-only.
 
 
+.. data:: abi_features
+
+   A frozen set of strings that represent ABI features.
+   Currently supported features are:
+
+   ``free-threading`` or ``gil-enabled``
+      The Python interpreter is free-threaded. On POSIX systems, this corresponds
+      to ``"t" in sys.abiflags``.
+
+   ``debug``
+      The Python interpreter has debugging capabilities. On POSIX systems, this
+      corresponds to ``"d" in sys.abiflags``.
+
+   ``32-bit`` or ``64-bit``
+      The bitness of the interpreter, that is, whether it is a 32-bit or 64-bit
+      build.
+
+   .. versionadded:: 3.14
+
+
 .. data:: abiflags
 
    On POSIX systems where Python was built with the standard ``configure``
