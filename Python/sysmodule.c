@@ -3632,7 +3632,7 @@ error:
 }
 
 
-PyObject *
+static PyObject *
 make_abi_info(void)
 {
     int res;
